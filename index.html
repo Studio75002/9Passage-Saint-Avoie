@@ -6,6 +6,9 @@
 <title>9 Passage Saint-Avoie · Paris, Le Marais</title>
 <meta name="description" content="Maison privée confidentielle au 9 Passage Saint-Avoie, dans le Marais historique. Un refuge feutré disponible via l’annonce officielle.">
 <meta name="theme-color" content="#1b1713">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://*.cartocdn.com https://*.openstreetmap.org; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
@@ -309,7 +312,9 @@ h2.title{
 .intro-wrap h2{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(38px,4.5vw,62px);line-height:1;margin-bottom:20px;color:var(--ink)}
 .intro-wrap p{font-weight:300;font-size:clamp(15px,1.4vw,17px);line-height:2;color:var(--muted);margin-bottom:12px}
 
+
 /* GALLERY */
+
 .gallery-wrap{background:var(--ink2);padding:clamp(80px,10vw,130px) clamp(20px,4vw,48px)}
 .gallery-wrap h2.title{color:white}
 .gallery{
@@ -593,7 +598,7 @@ footer.luxury-footer{
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 
 /* CORRECTION HEADER TRANSPARENT AVANT SCROLL */
-.header:not(.scrolled){
+.header:not(.scrolled):not(.nav-open){
   background:transparent!important;
   background-color:transparent!important;
   backdrop-filter:none!important;
@@ -601,8 +606,8 @@ footer.luxury-footer{
   border-bottom-color:transparent!important;
   box-shadow:none!important;
 }
-.header:not(.scrolled)::before,
-.header:not(.scrolled)::after{
+.header:not(.scrolled):not(.nav-open)::before,
+.header:not(.scrolled):not(.nav-open)::after{
   background:transparent!important;
   opacity:0!important;
 }
@@ -743,6 +748,66 @@ main{
 .footer-panel-content a{color:rgba(247,241,232,.46);transition:color .3s ease;}
 .footer-panel-content a:hover{color:var(--gold-light);}
 
+
+/* PROTECTION VISUELS — dissuasion copie simple */
+img,
+.gallery,
+.gallery figure,
+.hero-bg,
+.ed-img,
+.ed-img-inner{
+  -webkit-user-drag:none;
+  user-select:none;
+  -webkit-user-select:none;
+}
+img{
+  pointer-events:auto;
+}
+
+
+/* NOTICE JURIDIQUE & PROTECTION CONTENU */
+.footer-copy{
+  margin-top:14px;
+  color:rgba(247,241,232,.34);
+  font-size:10px;
+  letter-spacing:.12em;
+  font-weight:300;
+}
+.copyright-warning{
+  max-width:860px;
+  margin:26px auto 0;
+  padding:0 20px;
+  color:rgba(247,241,232,.26);
+  font-size:10px;
+  line-height:1.9;
+  letter-spacing:.08em;
+  text-align:center;
+  font-weight:300;
+}
+body.content-protected{
+  -webkit-user-select:none;
+  user-select:none;
+}
+body.content-protected input,
+body.content-protected textarea,
+body.content-protected select,
+body.content-protected button{
+  -webkit-user-select:auto;
+  user-select:auto;
+}
+
+
+/* OPTIMISATIONS CONVERSION / MOBILE */
+.map-actions{display:none!important}
+.why-section{background:var(--ivory);padding:clamp(86px,10vw,128px) clamp(20px,5vw,60px);text-align:center}
+.why-grid{max-width:1080px;margin:52px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;text-align:left}
+.why-card{background:var(--white);border:1px solid rgba(27,23,19,.06);border-radius:var(--radius);padding:34px 30px}
+.why-card strong{display:block;font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:var(--ink);margin-bottom:10px}
+.why-card p{font-size:13px;line-height:1.9;color:var(--muted)}
+.conversion-strip{background:var(--ink2);color:rgba(247,241,232,.72);padding:22px clamp(20px,5vw,60px);text-align:center;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.mobile-sticky-book{display:none}
+@media(max-width:960px){.why-grid{grid-template-columns:1fr}.map-actions .btn{width:100%;max-width:none}.mobile-sticky-book{display:block;position:fixed;left:14px;right:14px;bottom:14px;z-index:9000;text-align:center;background:var(--gold);color:white!important;padding:15px 18px;border-radius:var(--radius);box-shadow:0 16px 45px rgba(0,0,0,.28);font-size:11px;letter-spacing:.2em;text-transform:uppercase}body{padding-bottom:74px}}
+
 </style>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
@@ -757,7 +822,7 @@ main{
 <header class="header" id="header">
   <div class="header-top">
     <a href="#top" class="brand-logo" aria-label="9 Passage Saint-Avoie — Accueil">
-      <img src="assets/logo.png" alt="9 Passage Saint-Avoie" class="logo"
+      <img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/logo.png" alt="9 Passage Saint-Avoie" class="logo"
            onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='block'">
       <span class="logo-fallback">9 Passage Saint-Avoie</span>
     </a>
@@ -766,13 +831,9 @@ main{
   <nav aria-label="Navigation principale">
     <a href="#top" data-i18n="menuAccueil">Accueil</a>
     <a href="#galerie" data-i18n="menuGalerie">Galerie</a>
-    <a href="#equipements" data-i18n="menuAttentions">Attentions</a>
-    <a href="#alentours" data-i18n="menuAlentours">Aux alentours</a>
+    <a href="#alentours" data-i18n="menuMarais">Le Marais</a>
     <a href="#carte" data-i18n="menuCarte">Carte</a>
-    <a href="#histoire" data-i18n="menuHistoire">Histoire</a>
-    <a href="#transports" data-i18n="menuTransport">Transports</a>
     <a href="#faq" data-i18n="menuFAQ">FAQ</a>
-    <a href="#reservation-airbnb" data-i18n="menuDisponibilites">Réservation</a>
     <div class="lang-wrap">
       <label for="language-switcher">FR / EN</label>
       <select id="language-switcher" aria-label="Langue">
@@ -780,8 +841,7 @@ main{
         <option value="en">EN</option>
       </select>
     </div>
-    <a href="https://www.airbnb.fr/rooms/1121177099679198619"
-       target="_blank" rel="noopener" class="nav-book" data-i18n="reserve">Airbnb</a>
+    <a href="https://www.airbnb.fr/rooms/1121177099679198619" target="_blank" rel="noopener" class="nav-book" data-i18n="reserve">Réserver</a>
   </nav>
 </header>
 
@@ -792,7 +852,7 @@ main{
 <section id="top" class="hero">
   <div class="hero-bg" id="heroBg"></div>
   <div class="hero-content">
-    <img src="assets/logo-hero-transparent.png" alt="9 Passage Saint-Avoie" class="hero-logo"
+    <img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/logo-hero-transparent.png" alt="9 Passage Saint-Avoie" class="hero-logo"
          onerror="this.style.display='none'">
     <span class="eyebrow-hero">Le Marais · Passage Saint-Avoie</span>
     <h1>Un refuge<br><em>confidentiel</em></h1>
@@ -828,61 +888,53 @@ main{
 <!-- INTRO -->
 <section class="ivory">
   <div class="intro-wrap">
-    <span class="eyebrow reveal">Art de vivre</span>
-    <h2 class="reveal d1">Une parenthèse<br>dans le Marais</h2>
-    <p class="reveal d2">À quelques pas des galeries, cafés et musées, l’adresse conserve une distance précieuse avec l’agitation extérieure.</p>
-    <p class="reveal d3">Ici, rien ne cherche à impressionner. Tout invite à ralentir : la lumière du matin, les textures douces, la cour silencieuse.</p>
+    <span class="eyebrow reveal" data-i18n="artDeVivre">Art de vivre</span>
+    <h2 class="reveal d1" data-i18n="parentheseTitle">Une parenthèse<br>dans le Marais</h2>
+    <p class="reveal d2" data-i18n="parentheseText1">À quelques pas des galeries, cafés et musées, l’adresse conserve une distance précieuse avec l’agitation extérieure.</p>
+    <p class="reveal d3" data-i18n="parentheseText2">Ici, rien ne cherche à impressionner. Tout invite à ralentir : la lumière du matin, les textures douces, la cour silencieuse.</p>
   </div>
 </section>
 
 
 <!-- GALERIE -->
 <section id="galerie" class="gallery-wrap">
-  <span class="eyebrow eyebrow-light reveal">Galerie priv&#233;e</span>
-  <h2 class="title reveal d1">Fragments d’intérieur</h2>
+  <span class="eyebrow eyebrow-light reveal" data-i18n="galerieKicker">Galerie privée</span>
+  <h2 class="title reveal d1" data-i18n="galerieTitle">Fragments d’intérieur</h2>
   <div class="gallery" aria-label="Galerie photos de l’adresse">
-    <!-- ── ACCROCHEURS : salon, chambre, lit ── -->
-    <figure class="reveal"><img src="assets/22-salon-chambre.jpg" alt="Salon et chambre" loading="lazy"></figure>
-    <figure class="reveal d1"><img src="assets/01-chambre-lit-mur-pierre.jpg" alt="Chambre avec mur en pierre" loading="lazy"></figure>
-    <figure class="reveal d2"><img src="assets/14-salon-avec-fleurs.jpg" alt="Salon avec fleurs" loading="lazy"></figure>
-    <figure class="reveal d3"><img src="assets/17-chambre-premium.jpg" alt="Chambre premium" loading="lazy"></figure>
-    <figure class="reveal"><img src="assets/19-lit-premium.jpg" alt="Lit premium" loading="lazy"></figure>
-    <figure class="reveal d1"><img src="assets/16-chambre-lumineuse.jpg" alt="Chambre lumineuse" loading="lazy"></figure>
-    <figure class="reveal d2"><img src="assets/15-chambre-bouquet.jpg" alt="Chambre bouquet" loading="lazy"></figure>
-    <figure class="reveal d3"><img src="assets/18-chambre-rideaux.jpg" alt="Chambre avec rideaux" loading="lazy"></figure>
-    <figure class="reveal"><img src="assets/02-chambre-escalier-salle-de-bain.jpg" alt="Escalier et salle de bain" loading="lazy"></figure>
-    <!-- ── CUISINE & REPAS ── -->
-    <figure class="reveal d1"><img src="assets/09-coin-repas-cuisine.jpg" alt="Coin repas et cuisine" loading="lazy"></figure>
-    <figure class="reveal d2"><img src="assets/10-coin-repas-lumineux.jpg" alt="Coin repas lumineux" loading="lazy"></figure>
-    <figure class="reveal d3"><img src="assets/11-cuisine-salon.jpg" alt="Cuisine ouverte sur salon" loading="lazy"></figure>
-    <figure class="reveal"><img src="assets/12-cuisine-equipee.jpg" alt="Cuisine &#233;quip&#233;e" loading="lazy"></figure>
-    <figure class="reveal d1"><img src="assets/13-machine-cafe-cuisine.jpg" alt="Machine &#224; caf&#233;" loading="lazy"></figure>
-    <!-- ── SALLE DE BAIN ── -->
-    <figure class="reveal d2"><img src="assets/07-salle-de-bain-douche.jpg" alt="Salle de bain avec douche" loading="lazy"></figure>
-    <figure class="reveal d3"><img src="assets/21-salle-de-bain.jpg" alt="Salle de bain" loading="lazy"></figure>
-    <figure class="reveal"><img src="assets/20-produits-salle-de-bain.jpg" alt="Produits de salle de bain" loading="lazy"></figure>
-    <!-- ── DÉTAILS ── -->
-    <figure class="reveal d1"><img src="assets/06-lampe-chevet-pierre.jpg" alt="Lampe de chevet et pierre" loading="lazy"></figure>
-    <figure class="reveal d2"><img src="assets/04-detail-decoratif-livres.jpg" alt="D&#233;tail d&#233;coratif livres" loading="lazy"></figure>
-    <figure class="reveal d3"><img src="assets/05-seche-cheveux-dyson.jpg" alt="S&#232;che-cheveux Dyson" loading="lazy"></figure>
-    <figure class="reveal"><img src="assets/08-tv-bureau.jpg" alt="T&#233;l&#233;vision et bureau" loading="lazy"></figure>
-    <figure class="reveal d1"><img src="assets/26-bureau.jpg" alt="Espace bureau" loading="lazy"></figure>
-    <figure class="reveal d2"><img src="assets/03-chambre-tv-salle-de-bain.jpg" alt="Chambre avec TV" loading="lazy"></figure>
-
-    <figure class="reveal d2"><img src="assets/28-facade.jpg" alt="Façade végétalisée du Passage Saint-Avoie" loading="lazy"></figure>
-
-    <!-- ── COUR EN DERNIER ── -->
-    <figure class="reveal d3"><img src="assets/24-grille-exterieure.jpg" alt="Grille ext&#233;rieure du passage" loading="lazy"></figure>
-    <figure class="reveal"><img src="assets/23-cour-exterieure.jpg" alt="Cour ext&#233;rieure" loading="lazy"></figure>
-    <figure class="reveal d1"><img src="assets/25-cour.jpg" alt="Cour du passage Saint-Avoie" loading="lazy"></figure>
+    <figure class="reveal"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/22-salon-chambre.jpg" alt="Salon et chambre" loading="lazy"></figure>
+    <figure class="reveal d1"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/01-chambre-lit-mur-pierre.jpg" alt="Chambre avec mur en pierre" loading="lazy"></figure>
+    <figure class="reveal d2"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/17-chambre-premium.jpg" alt="Chambre premium" loading="lazy"></figure>
+    <figure class="reveal d3"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/19-lit-premium.jpg" alt="Lit premium" loading="lazy"></figure>
+    <figure class="reveal"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/14-salon-avec-fleurs.jpg" alt="Salon avec fleurs" loading="lazy"></figure>
+    <figure class="reveal d1"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/09-coin-repas-cuisine.jpg" alt="Coin repas et cuisine" loading="lazy"></figure>
+    <figure class="reveal d2"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/12-cuisine-equipee.jpg" alt="Cuisine équipée" loading="lazy"></figure>
+    <figure class="reveal d3"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/07-salle-de-bain-douche.jpg" alt="Salle de bain avec douche" loading="lazy"></figure>
+    <figure class="reveal"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/21-salle-de-bain.jpg" alt="Salle de bain" loading="lazy"></figure>
+    <figure class="reveal d1"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/26-bureau.jpg" alt="Espace bureau" loading="lazy"></figure>
+    <figure class="reveal d2"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/28-facade.jpg" alt="Façade végétalisée du Passage Saint-Avoie" loading="lazy"></figure>
+    <figure class="reveal d3"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/25-cour.jpg" alt="Cour du passage Saint-Avoie" loading="lazy"></figure>
+    <figure class="reveal"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/16-chambre-lumineuse.jpg" alt="Chambre lumineuse" loading="lazy"></figure>
+    <figure class="reveal d1"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/15-chambre-bouquet.jpg" alt="Chambre bouquet" loading="lazy"></figure>
+    <figure class="reveal d2"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/18-chambre-rideaux.jpg" alt="Chambre avec rideaux" loading="lazy"></figure>
+    <figure class="reveal d3"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/02-chambre-escalier-salle-de-bain.jpg" alt="Escalier et salle de bain" loading="lazy"></figure>
+    <figure class="reveal"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/10-coin-repas-lumineux.jpg" alt="Coin repas lumineux" loading="lazy"></figure>
+    <figure class="reveal d1"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/11-cuisine-salon.jpg" alt="Cuisine ouverte sur salon" loading="lazy"></figure>
+    <figure class="reveal d2"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/13-machine-cafe-cuisine.jpg" alt="Machine à café" loading="lazy"></figure>
+    <figure class="reveal d3"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/20-produits-salle-de-bain.jpg" alt="Produits de salle de bain" loading="lazy"></figure>
+    <figure class="reveal"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/06-lampe-chevet-pierre.jpg" alt="Lampe de chevet et pierre" loading="lazy"></figure>
+    <figure class="reveal d1"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/04-detail-decoratif-livres.jpg" alt="Détail décoratif livres" loading="lazy"></figure>
+    <figure class="reveal d2"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/05-seche-cheveux-dyson.jpg" alt="Sèche-cheveux Dyson" loading="lazy"></figure>
+    <figure class="reveal d3"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/08-tv-bureau.jpg" alt="Télévision et bureau" loading="lazy"></figure>
+    <figure class="reveal"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/03-chambre-tv-salle-de-bain.jpg" alt="Chambre avec TV" loading="lazy"></figure>
+    <figure class="reveal d1"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/24-grille-exterieure.jpg" alt="Grille extérieure du passage" loading="lazy"></figure>
+    <figure class="reveal d2"><img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="assets/23-cour-exterieure.jpg" alt="Cour extérieure" loading="lazy"></figure>
   </div>
 </section>
-
 <!-- ÉQUIPEMENTS -->
 <section id="equipements" class="section ivory">
-  <span class="eyebrow reveal">Détails &amp; attentions</span>
-  <h2 class="title reveal d1">L’essentiel<br>avec justesse</h2>
-  <p class="intro-text reveal d2">Des attentions choisies pour accompagner le quotidien avec discrétion, autonomie et simplicité.</p>
+  <span class="eyebrow reveal" data-i18n="equipKicker">Détails &amp; attentions</span>
+  <h2 class="title reveal d1" data-i18n="equipTitle">L’essentiel<br>avec justesse</h2>
+  <p class="intro-text reveal d2" data-i18n="equipIntro">Des attentions choisies pour accompagner le quotidien avec discrétion, autonomie et simplicité.</p>
   <div class="grid">
     <div class="card reveal">
       <h3>Salle de bain</h3>
@@ -945,12 +997,12 @@ main{
 
 <!-- ALENTOURS -->
 <section id="alentours" class="section cream">
-  <span class="eyebrow reveal">Carnet de quartier</span>
-  <h2 class="title reveal d1">À quelques pas</h2>
-  <p class="intro-text reveal d2">Musées, places historiques et tables choisies composent un itinéraire naturel autour de l’adresse.</p>
+  <span class="eyebrow reveal" data-i18n="quartierKicker">Carnet de quartier</span>
+  <h2 class="title reveal d1" data-i18n="quartierTitle">À quelques pas</h2>
+  <p class="intro-text reveal d2" data-i18n="quartierIntro">Musées, places historiques et tables choisies composent un itinéraire naturel autour de l’adresse.</p>
   <div class="alentours-grid">
     <div class="al-col reveal">
-      <h3>&#192; visiter</h3>
+      <h3 data-i18n="visiterTitle">À visiter</h3>
       <div class="lieu"><strong>Notre-Dame de Paris</strong><span class="lieu-dist">12 min &#224; pied</span><p>Une silhouette majeure de la capitale.</p></div>
       <div class="lieu"><strong>Mus&#233;e du Louvre</strong><span class="lieu-dist">15 min &#224; pied</span><p>Une marche agréable vers l’une des plus grandes collections au monde.</p></div>
       <div class="lieu"><strong>Mus&#233;e Picasso</strong><span class="lieu-dist">8 min &#224; pied</span><p>Un musée intime consacré à l’œuvre du maître espagnol.</p></div>
@@ -958,7 +1010,7 @@ main{
       <div class="lieu"><strong>Place des Vosges</strong><span class="lieu-dist">13 min &#224; pied</span><p>Une place royale, calme et majestueuse, au cœur du Marais historique.</p></div>
     </div>
     <div class="al-col reveal d2">
-      <h3>Gastronomie &amp; adresses</h3>
+      <h3 data-i18n="gastroTitle">Gastronomie &amp; adresses</h3>
       <div class="lieu"><strong>&#192; la M&#232;re de Famille</strong><span class="lieu-dist">6 min &#224; pied</span><p>Maison ancienne, douceurs classiques et vitrines gourmandes.</p></div>
       <div class="lieu"><strong>Le Jackpot</strong><span class="lieu-dist">4 min &#224; pied</span><p>Une table actuelle, simple et animée.</p></div>
       <div class="lieu"><strong>Dessance</strong><span class="lieu-dist">7 min &#224; pied</span><p>Une proposition singulière autour du sucré et de la création.</p></div>
@@ -973,10 +1025,10 @@ main{
 
 <!-- CARTE INTERACTIVE -->
 <section id="carte" class="map-section">
-  <span class="eyebrow reveal">Carte interactive</span>
-  <h2 class="title reveal d1">Le quartier en carte</h2>
+  <span class="eyebrow reveal" data-i18n="carteKicker">Carte interactive</span>
+  <h2 class="title reveal d1" data-i18n="carteTitle">Le quartier en carte</h2>
   <p class="intro-text reveal d2">
-    Repérez les musées, tables, monuments et stations accessibles depuis l’adresse.
+    <span data-i18n="carteIntro">Repérez les musées, tables, monuments et stations accessibles depuis l’adresse.</span>
   </p>
 
   <div class="map-filters reveal d3" aria-label="Filtres de la carte">
@@ -989,10 +1041,10 @@ main{
   <div class="map-shell reveal d3">
     <div id="luxury-map" aria-label="Carte interactive des alentours de l’adresse"></div>
     <div class="map-legend" aria-label="Légende de la carte">
-      <span><i class="legend-dot dot-gold"></i>L’adresse</span>
-      <span><i class="legend-dot dot-black"></i>Musées & monuments</span>
-      <span><i class="legend-dot dot-green"></i>Gastronomie</span>
-      <span><i class="legend-dot dot-blue"></i>Métros proches</span>
+      <span><i class="legend-dot dot-gold"></i><span data-i18n="legendAddress">L’adresse</span></span>
+      <span><i class="legend-dot dot-black"></i><span data-i18n="legendMuseums">Musées & monuments</span></span>
+      <span><i class="legend-dot dot-green"></i><span data-i18n="legendGastro">Gastronomie</span></span>
+      <span><i class="legend-dot dot-blue"></i><span data-i18n="legendMetro">Métros proches</span></span>
     </div>
   </div>
 </section>
@@ -1000,8 +1052,8 @@ main{
 
 <!-- HISTOIRE -->
 <section id="histoire" class="histoire">
-  <span class="eyebrow eyebrow-light reveal">H&#233;ritage parisien</span>
-  <h2 class="reveal d1">Mémoire<br>du passage</h2>
+  <span class="eyebrow eyebrow-light reveal" data-i18n="histoireKicker">Héritage parisien</span>
+  <h2 class="reveal d1" data-i18n="histoireTitle">Mémoire<br>du passage</h2>
   <p class="reveal d2">Le Passage Sainte-Avoie tire son nom d’une ancienne rue et d’un couvent médiéval dédiés à Sainte Avoie, figure honorée dès le Moyen Âge.</p>
   <p class="reveal d2">Créé en 1828 sur l’emplacement de l’ancien Hôtel de Mesmes, le passage porte encore la mémoire du « Logis du Roy ».</p>
   <p class="reveal d3">Son histoire croise celle d’Anne de Montmorency, laissant à l’adresse une profondeur rare et silencieuse.</p>
@@ -1010,12 +1062,12 @@ main{
 
 <!-- TRANSPORTS -->
 <section id="transports" class="section cream">
-  <span class="eyebrow reveal">Acc&#232;s &amp; mobilit&#233;</span>
-  <h2 class="title reveal d1">Transports</h2>
-  <p class="intro-text reveal d2">Quelques repères simples pour arriver depuis les gares et aéroports.</p>
+  <span class="eyebrow reveal" data-i18n="transportsKicker">Accès &amp; mobilité</span>
+  <h2 class="title reveal d1" data-i18n="transportsTitle">Transports</h2>
+  <p class="intro-text reveal d2" data-i18n="transportsIntro">Quelques repères simples pour arriver depuis les gares et aéroports.</p>
   <div class="grid">
     <div class="card reveal">
-      <h3>Depuis les gares</h3>
+      <h3 data-i18n="garesTitle">Depuis les gares</h3>
       <p><strong>Gare du Nord &amp; Gare de l&#8217;Est</strong>Ligne 5 → R&#233;publique puis ligne 11 → Rambuteau, 5 min &#224; pied · ~16 min</p>
       <p><strong>Gare de Lyon</strong>Ligne 1 → H&#244;tel de Ville puis ligne 11 → Rambuteau, 5 min &#224; pied · ~20 min</p>
       <p><strong>Gare d&#8217;Austerlitz</strong>Ligne 5 → R&#233;publique puis ligne 11 → Rambuteau, 5 min &#224; pied · ~20 min</p>
@@ -1023,19 +1075,19 @@ main{
       <p><strong>Gare Montparnasse</strong>Ligne 4 → Ch&#226;telet puis ligne 11 → Rambuteau, 5 min &#224; pied · ~22 min</p>
     </div>
     <div class="card reveal d1">
-      <h3>Depuis les a&#233;roports</h3>
+      <h3 data-i18n="aeroportsTitle">Depuis les aéroports</h3>
       <p><strong>Charles-de-Gaulle (CDG)</strong>RER B → Ch&#226;telet-Les Halles, 10 min &#224; pied · ~45–60 min</p>
       <p><strong>Paris Orly (ORY)</strong>Ligne 14 → Ch&#226;telet, 10 min &#224; pied · ~35–50 min</p>
       <p><strong>Taxi officiel CDG</strong>Forfait Paris rive droite ~56 &#8364;<br><em style="font-size:12px;color:var(--muted)">D&#233;pose : 62 rue du Temple, 75003 Paris</em></p>
       <p><strong>Taxi officiel Orly</strong>Forfait Paris rive droite ~45 &#8364;<br><em style="font-size:12px;color:var(--muted)">D&#233;pose : 62 rue du Temple, 75003 Paris</em></p>
     </div>
     <div class="card reveal d2">
-      <h3>Uber &amp; G7</h3>
+      <h3 data-i18n="uberTitle">Uber &amp; G7</h3>
       <p><strong>Uber</strong>Tarif estim&#233; : 35 &#8364; &#224; 60 &#8364; selon l&#8217;a&#233;roport et le trafic.<br><em style="font-size:12px;color:var(--muted)">D&#233;pose : 62 rue du Temple, 75003 Paris</em></p>
       <p><strong>G7 Taxi</strong>Via l&#8217;application G7 ou par t&#233;l&#233;phone.<br><em style="font-size:12px;color:var(--muted)">D&#233;pose : 62 rue du Temple, 75003 Paris</em></p>
     </div>
     <div class="card reveal d3">
-      <h3>M&#233;tros proches</h3>
+      <h3 data-i18n="metrosTitle">Métros proches</h3>
       <p><strong>Arts et M&#233;tiers</strong>Lignes 3 et 11 · 5 min &#224; pied</p>
       <p><strong>Rambuteau</strong>Ligne 11 · 3–5 min &#224; pied</p>
       <p><strong>R&#233;aumur-S&#233;bastopol</strong>Lignes 3 et 4 · 8 min &#224; pied</p>
@@ -1118,6 +1170,7 @@ main{
   </div>
 </section>
 
+
 <!-- RÉSERVATION -->
 <section id="reservation-airbnb" class="resa">
   <span class="eyebrow eyebrow-light reveal">Réservation</span>
@@ -1133,7 +1186,7 @@ main{
 <!-- LIGHTBOX -->
 <div class="lightbox" id="photo-lightbox" aria-hidden="true" role="dialog" aria-label="Photo agrandie">
   <button class="lightbox-close" type="button" aria-label="Fermer">&#215;</button>
-  <img src="" alt="">
+  <img data-copyright="© 2026 9 Passage Saint-Avoie — Antoine & José. Toute reproduction interdite." src="" alt="">
 </div>
 
 <button class="back-to-top" id="backToTop" type="button" aria-label="Retour en haut">↑</button>
@@ -1144,6 +1197,7 @@ main{
     <div>
       <div class="footer-brand">9 Passage Saint-Avoie</div>
       <div class="footer-info">Paris · Le Marais</div>
+      <div class="footer-copy">© 2026 9 Passage Saint-Avoie — Antoine &amp; José. Toute reproduction interdite.</div>
       <div class="footer-links">
         <a href="https://www.airbnb.fr/rooms/1121177099679198619" target="_blank" rel="noopener">Airbnb</a>
       </div>
@@ -1174,6 +1228,7 @@ main{
       </div>
     </details>
   </div>
+  <div class="copyright-warning" aria-label="Protection du contenu">La contrefaçon numérique constitue un délit pénal passible de 3 ans d’emprisonnement et 300 000 € d’amende en France.</div>
 </footer>
 
 <!-- COOKIE BANNER -->
@@ -1188,6 +1243,51 @@ main{
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
 (function(){
+
+  /* Protection technique — anti-copie images et textes */
+  document.body.classList.add('content-protected');
+
+  document.addEventListener('contextmenu', function(e){
+    if(e.target && (
+      e.target.tagName === 'IMG' ||
+      e.target.closest('.gallery') ||
+      e.target.closest('.hero') ||
+      e.target.closest('main')
+    )){
+      e.preventDefault();
+    }
+  });
+
+  document.addEventListener('copy', function(e){
+    var active = document.activeElement;
+    if(active && ['INPUT','TEXTAREA'].includes(active.tagName)) return;
+    e.preventDefault();
+  });
+
+  document.addEventListener('cut', function(e){
+    var active = document.activeElement;
+    if(active && ['INPUT','TEXTAREA'].includes(active.tagName)) return;
+    e.preventDefault();
+  });
+
+  document.addEventListener('dragstart', function(e){
+    if(e.target && e.target.tagName === 'IMG') e.preventDefault();
+  });
+
+
+  /* Sécurité front-end légère : dissuasion copie images et anti-iframe basique */
+  if(window.top !== window.self){
+    try{ window.top.location = window.self.location; }catch(e){ document.body.style.display='none'; }
+  }
+  document.addEventListener('contextmenu',function(e){
+    if(e.target && (e.target.tagName === 'IMG' || e.target.closest('.gallery') || e.target.closest('.hero'))){
+      e.preventDefault();
+    }
+  });
+  document.addEventListener('dragstart',function(e){
+    if(e.target && e.target.tagName === 'IMG') e.preventDefault();
+  });
+
   document.body.classList.add('js-ready');
 
   /* Header transparent en haut, actif après scroll */
@@ -1261,8 +1361,8 @@ main{
 
   /* i18n — version complète FR / EN */
   var T={
-    fr:{reserve:'Airbnb',airbnbAvailability:'Voir les disponibilités',discoverGallery:'Découvrir',menuAccueil:'Accueil',menuGalerie:'Galerie',menuEquipements:'Attentions',menuAttentions:'Attentions',menuAlentours:'Aux alentours',menuCarte:'Carte',menuHistoire:'Histoire',menuTransport:'Transports',menuFAQ:'FAQ',menuDisponibilites:'Réservation',filterAll:'Tout',filterMusees:'Musées',filterGastro:'Gastronomie',filterMetros:'Métros'},
-    en:{reserve:'Airbnb',airbnbAvailability:'View availability',discoverGallery:'Discover',menuAccueil:'Home',menuGalerie:'Gallery',menuEquipements:'Attentions',menuAttentions:'Attentions',menuAlentours:'Nearby',menuCarte:'Map',menuHistoire:'History',menuTransport:'Access',menuFAQ:'FAQ',menuDisponibilites:'Reservation',filterAll:'All',filterMusees:'Museums',filterGastro:'Dining',filterMetros:'Metro'}
+    fr:{reserve:'Airbnb',airbnbAvailability:'Voir les disponibilités',discoverGallery:'Découvrir',menuAccueil:'Accueil',menuGalerie:'Galerie',artDeVivre:'Art de vivre',menuEquipements:'Attentions',menuAttentions:'Attentions',menuAlentours:'Aux alentours',menuMarais:'Le Marais',menuCarte:'Carte',menuMarais:'Le Marais',menuHistoire:'Histoire',menuTransport:'Transports',menuFAQ:'FAQ',menuDisponibilites:'Réservation',filterAll:'Tout',filterMusees:'Musées',filterGastro:'Gastronomie',filterMetros:'Métros',heroNote:'Dates et avis sur l’annonce officielle.',scrollText:'Défiler',reservationCta:'Réserver l’expérience',ratpRoute:'Itinéraire RATP'},
+    en:{reserve:'Airbnb',airbnbAvailability:'View availability',discoverGallery:'Discover',menuAccueil:'Home',menuGalerie:'Gallery',artDeVivre:'Art of living',menuEquipements:'Attentions',menuAttentions:'Attentions',menuAlentours:'Nearby',menuMarais:'Le Marais',menuCarte:'Map',menuMarais:'Le Marais',menuHistoire:'History',menuTransport:'Access',menuFAQ:'FAQ',menuDisponibilites:'Reservation',filterAll:'All',filterMusees:'Museums',filterGastro:'Dining',filterMetros:'Metro',heroNote:'Dates and reviews on the official listing.',scrollText:'Scroll',reservationCta:'Reserve the experience',ratpRoute:'RATP route'}
   };
   var LUXE_COPY={
     fr:{
@@ -1296,7 +1396,7 @@ main{
       '#alentours .intro-text':'Musées, places historiques et tables choisies composent un itinéraire naturel autour de l’adresse.',
       '#carte .eyebrow':'Carte interactive',
       '#carte h2':'Le quartier en carte',
-      '#carte .intro-text':'Repérez les musées, tables, monuments et stations accessibles depuis l’adresse.',
+      '#carte .intro-text':'<span data-i18n="carteIntro">Repérez les musées, tables, monuments et stations accessibles depuis l’adresse.</span>',
       '#histoire .eyebrow':'Héritage parisien',
       '#histoire h2':'Mémoire<br>du passage',
       '#histoire p:nth-of-type(1)':'Le Passage Sainte-Avoie tire son nom d’une ancienne rue et d’un couvent médiéval dédiés à Sainte Avoie, figure honorée dès le Moyen Âge.',
@@ -1370,6 +1470,39 @@ main{
     }
   };
   /* Complément de traduction EN — sans modifier le texte FR d'origine */
+  /* Reset FR complet pour les blocs traduits dynamiquement */
+  Object.assign(LUXE_COPY.fr,{
+    '#equipements .card:nth-child(1) h3':'Salle de bain',
+    '#equipements .card:nth-child(1) ul':'<li>Sèche-cheveux Dyson</li><li>Shampoing &amp; gel douche</li><li>Produits de qualité hôtelière</li>',
+    '#equipements .card:nth-child(2) h3':'Chambre &amp; linge',
+    '#equipements .card:nth-child(2) ul':'<li>Linge de lit en coton</li><li>Oreillers &amp; couvertures supplémentaires</li><li>Stores occultants</li><li>Espace de rangement</li>',
+    '#equipements .card:nth-child(3) h3':'Cuisine équipée',
+    '#equipements .card:nth-child(3) ul':'<li>Machine à expresso</li><li>Plaques de cuisson induction</li><li>Four micro-ondes</li><li>Lave-vaisselle &amp; produits</li><li>Verres à vin &amp; vaisselle complète</li><li>Mini réfrigérateur</li><li>Bouilloire électrique</li><li>Grille-pain</li>',
+    '#equipements .card:nth-child(4) h3':'Confort &amp; technologie',
+    '#equipements .card:nth-child(4) ul':'<li>Climatisation &amp; chauffage</li><li>Lave-linge &amp; sèche-linge</li><li>Fibre Ultra haut débit</li><li>TV HD 43 pouces</li><li>Livres &amp; lecture</li><li>Fer à repasser</li>',
+    '#equipements .card:nth-child(5) h3':'Sécurité',
+    '#equipements .card:nth-child(5) ul':'<li>Détecteur de fumée</li><li>Caméra extérieure (entrée)</li><li>Coffre-fort</li>',
+    '#equipements .card:nth-child(6) h3':'Services',
+    '#equipements .card:nth-child(6) ul':'<li>Accueil par l’hôte</li><li>Deux clés disponibles</li>',
+    '#alentours .al-col:nth-child(1) h3':'À visiter',
+    '#alentours .al-col:nth-child(2) h3':'Gastronomie &amp; adresses',
+    '#faq .faq-item:nth-child(1) .faq-q-text':'À quelle heure est le check-in ?',
+    '#faq .faq-item:nth-child(1) .faq-a-inner':'L’arrivée est possible à partir de 15h00. Un message 60 minutes avant permet de préparer l’accueil dans les meilleures conditions.',
+    '#faq .faq-item:nth-child(2) .faq-q-text':'À quelle heure est le check-out ?',
+    '#faq .faq-item:nth-child(2) .faq-a-inner':'Le départ s’effectue avant 11h00, afin de laisser le temps nécessaire à la remise en état de l’espace.',
+    '#faq .faq-item:nth-child(3) .faq-q-text':'Comment rejoindre l’entrée ?',
+    '#faq .faq-item:nth-child(3) .faq-a-inner':'Pour une arrivée fluide, privilégiez G7 ou Uber. Le point de dépose le plus pratique est le 62 rue du Temple, 75003.',
+    '#faq .faq-item:nth-child(4) .faq-q-text':'L’adresse convient-elle à tous les profils ?',
+    '#faq .faq-item:nth-child(4) .faq-a-inner':'En raison d’un escalier en colimaçon et d’une marche d’accès, l’adresse n’est pas adaptée aux bébés ni aux personnes à mobilité réduite.',
+    '#faq .faq-item:nth-child(5) .faq-q-text':'Peut-on déposer ses bagages ?',
+    '#faq .faq-item:nth-child(5) .faq-a-inner':'City Locker se trouve à environ 9 minutes à pied, au 82 rue de Gravilliers. Selon l’organisation du jour, les bagages peuvent aussi être accueillis à partir de 11h30.',
+    '#faq .faq-item:nth-child(6) .faq-q-text':'Combien y a-t-il de salles d’eau ?',
+    '#faq .faq-item:nth-child(6) .faq-a-inner':'L’espace dispose de deux salles d’eau avec lavabos, ainsi que d’un WC séparé.',
+    '#faq .faq-item:nth-child(7) .faq-q-text':'Quelle est la sensation d’espace ?',
+    '#faq .faq-item:nth-child(7) .faq-a-inner':'La belle hauteur sous plafond apporte une vraie respiration à l’espace, avec environ 40 m² pensés pour recevoir confortablement jusqu’à quatre hôtes.',
+    '#faq .faq-item:nth-child(8) .faq-q-text':'Règlement intérieur',
+    '#faq .faq-item:nth-child(8) .faq-a-inner':'Animaux non acceptés · Événements non autorisés · Interdiction de fumer et de vapoter · Horaires de calme de 21h00 à 9h00 · Photographies commerciales non autorisées · Maximum 4 hôtes · Le détail complet figure sur l’annonce Airbnb.'
+  });
   Object.assign(LUXE_COPY.en,{
     '.eyebrow-hero':'Le Marais · Passage Saint-Avoie',
     '.hero h1':'A confidential<br><em>refuge</em>',
@@ -1444,9 +1577,27 @@ main{
   function applyLang(l){
     var t=T[l]||T.fr;
     document.documentElement.lang=l;
-    document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(t[k])el.textContent=t[k]});
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.getAttribute('data-i18n');
+      if(t[k]) el.innerHTML=t[k];
+    });
     var copy=LUXE_COPY[l]||LUXE_COPY.fr;
     Object.keys(copy).forEach(function(sel){setHtml(sel,copy[sel])});
+    if(l==='en'){
+      var skip=document.querySelector('.skip-link'); if(skip) skip.innerHTML='Skip to main content';
+      var mobile=document.getElementById('mobileToggle'); if(mobile) mobile.setAttribute('aria-label','Open menu');
+      var map=document.getElementById('luxury-map'); if(map) map.setAttribute('aria-label','Interactive map of the surroundings');
+      var lightbox=document.getElementById('photo-lightbox'); if(lightbox) lightbox.setAttribute('aria-label','Enlarged photo');
+      var close=document.querySelector('.lightbox-close'); if(close) close.setAttribute('aria-label','Close');
+      var top=document.getElementById('backToTop'); if(top) top.setAttribute('aria-label','Back to top');
+    }else{
+      var skipFr=document.querySelector('.skip-link'); if(skipFr) skipFr.innerHTML='Aller au contenu principal';
+      var mobileFr=document.getElementById('mobileToggle'); if(mobileFr) mobileFr.setAttribute('aria-label','Ouvrir le menu');
+      var mapFr=document.getElementById('luxury-map'); if(mapFr) mapFr.setAttribute('aria-label','Carte interactive des alentours de l’adresse');
+      var lightboxFr=document.getElementById('photo-lightbox'); if(lightboxFr) lightboxFr.setAttribute('aria-label','Photo agrandie');
+      var closeFr=document.querySelector('.lightbox-close'); if(closeFr) closeFr.setAttribute('aria-label','Fermer');
+      var topFr=document.getElementById('backToTop'); if(topFr) topFr.setAttribute('aria-label','Retour en haut');
+    }
     localStorage.setItem('lang',l);
   }
   var sw=document.getElementById('language-switcher');
@@ -1496,7 +1647,7 @@ main{
     function addMarker(lat,lng,name,info,color,size){
       L.marker([lat,lng],{icon:markerIcon(color,size)})
         .addTo(map)
-        .bindPopup('<strong>'+name+'</strong>'+info);
+        .bindPopup(info.indexOf('<strong>') === 0 ? info : '<strong>'+name+'</strong>'+info);
     }
 
     function addMetro(lat,lng,name,info){
@@ -1506,7 +1657,7 @@ main{
         weight:2,
         fillColor:'#3f75a8',
         fillOpacity:.82
-      }).addTo(map).bindPopup('<strong>'+name+'</strong>'+info);
+      }).addTo(map).bindPopup(info.indexOf('<strong>') === 0 ? info : '<strong>'+name+'</strong>'+info);
     }
 
     var gold='#9e7a40', black='#1b1713', green='#4b7f52', blue='#3f75a8';
@@ -1575,5 +1726,165 @@ main{
 
 })();
 </script>
+<a href="https://www.airbnb.fr/rooms/1121177099679198619" target="_blank" rel="noopener" class="mobile-sticky-book">Réserver sur Airbnb</a>
+
+
+<script>
+(function(){
+  const getElement = id => document.getElementById(id);
+
+  const translations = {
+    fr:{
+      menuAccueil:'Accueil',
+      menuGalerie:'Galerie',
+      menuMarais:'Le Marais',
+      menuCarte:'Carte',
+      menuFAQ:'FAQ',
+      reserve:'Réserver',
+      airbnbAvailability:'Voir les disponibilités',
+      discoverGallery:'Découvrir',
+      heroNote:'Dates et avis sur l’annonce officielle.',
+      scrollText:'Défiler',
+
+      artDeVivre:'Art de vivre',
+      parentheseTitle:'Une parenthèse<br>dans le Marais',
+      parentheseText1:'À quelques pas des galeries, cafés et musées, l’adresse conserve une distance précieuse avec l’agitation extérieure.',
+      parentheseText2:'Ici, rien ne cherche à impressionner. Tout invite à ralentir : la lumière du matin, les textures douces, la cour silencieuse.',
+
+      galerieKicker:'Galerie privée',
+      galerieTitle:'Fragments d’intérieur',
+
+      equipKicker:'Détails & attentions',
+      equipTitle:'L’essentiel<br>avec justesse',
+      equipIntro:'Des attentions choisies pour accompagner le quotidien avec discrétion, autonomie et simplicité.',
+
+      quartierKicker:'Carnet de quartier',
+      quartierTitle:'À quelques pas',
+      quartierIntro:'Musées, places historiques et tables choisies composent un itinéraire naturel autour de l’adresse.',
+      visiterTitle:'À visiter',
+      gastroTitle:'Gastronomie & adresses',
+
+      carteKicker:'Carte interactive',
+      carteTitle:'Le quartier en carte',
+      carteIntro:'Repérez les musées, tables, monuments et stations accessibles depuis l’adresse.',
+      filterAll:'Tout',
+      filterMusees:'Musées',
+      filterGastro:'Gastronomie',
+      filterMetros:'Métros',
+      legendAddress:'L’adresse',
+      legendMuseums:'Musées & monuments',
+      legendGastro:'Gastronomie',
+      legendMetro:'Métros proches',
+
+      histoireKicker:'Héritage parisien',
+      histoireTitle:'Mémoire<br>du passage',
+
+      transportsKicker:'Accès & mobilité',
+      transportsTitle:'Transports',
+      transportsIntro:'Quelques repères simples pour arriver depuis les gares et aéroports.',
+      garesTitle:'Depuis les gares',
+      aeroportsTitle:'Depuis les aéroports',
+      uberTitle:'Uber & G7',
+      metrosTitle:'Métros proches',
+
+      faqKicker:'Questions fréquentes',
+      faqTitle:'FAQ',
+
+      reservationKicker:'Réservation',
+      reservationTitle:'Réserver<br><em>la suite</em>'
+    },
+    en:{
+      menuAccueil:'Home',
+      menuGalerie:'Gallery',
+      menuMarais:'Le Marais',
+      menuCarte:'Map',
+      menuFAQ:'FAQ',
+      reserve:'Book',
+      airbnbAvailability:'See availability',
+      discoverGallery:'Discover',
+      heroNote:'Dates and reviews on the official listing.',
+      scrollText:'Scroll',
+
+      artDeVivre:'Art of living',
+      parentheseTitle:'A pause<br>in Le Marais',
+      parentheseText1:'Just steps from galleries, cafés and museums, the address keeps a precious distance from the bustle outside.',
+      parentheseText2:'Nothing here tries to impress. Everything invites you to slow down: morning light, soft textures and the quiet courtyard.',
+
+      galerieKicker:'Private gallery',
+      galerieTitle:'Interior fragments',
+
+      equipKicker:'Details & thoughtful touches',
+      equipTitle:'The essentials<br>with precision',
+      equipIntro:'Selected details designed to make everyday life discreet, simple and effortless.',
+
+      quartierKicker:'Neighbourhood notebook',
+      quartierTitle:'A few steps away',
+      quartierIntro:'Museums, historic squares and selected tables create a natural itinerary around the address.',
+      visiterTitle:'To visit',
+      gastroTitle:'Gastronomy & addresses',
+
+      carteKicker:'Interactive map',
+      carteTitle:'The neighbourhood on the map',
+      carteIntro:'Find museums, restaurants, monuments and nearby stations from the address.',
+      filterAll:'All',
+      filterMusees:'Museums',
+      filterGastro:'Gastronomy',
+      filterMetros:'Metros',
+      legendAddress:'The address',
+      legendMuseums:'Museums & monuments',
+      legendGastro:'Gastronomy',
+      legendMetro:'Nearby metros',
+
+      histoireKicker:'Parisian heritage',
+      histoireTitle:'Memory<br>of the passage',
+
+      transportsKicker:'Access & mobility',
+      transportsTitle:'Transport',
+      transportsIntro:'Simple reference points for arriving from train stations and airports.',
+      garesTitle:'From the train stations',
+      aeroportsTitle:'From the airports',
+      uberTitle:'Uber & G7',
+      metrosTitle:'Nearby metro stations',
+
+      faqKicker:'Frequently asked questions',
+      faqTitle:'FAQ',
+
+      reservationKicker:'Booking',
+      reservationTitle:'Book<br><em>the suite</em>'
+    }
+  };
+
+  function applyLanguage(lang){
+    const t = translations[lang] || translations.fr;
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.getAttribute('data-i18n');
+      if(t[key] !== undefined){
+        el.innerHTML = t[key];
+      }
+    });
+  }
+
+  window.applySiteLanguage = applyLanguage;
+
+  window.addEventListener('DOMContentLoaded', function(){
+    const switcher = getElement('language-switcher');
+    const saved = localStorage.getItem('siteLanguage') || localStorage.getItem('siteLang') || 'fr';
+
+    if(switcher){
+      switcher.value = saved;
+      switcher.addEventListener('change', function(){
+        localStorage.setItem('siteLanguage', this.value);
+        localStorage.setItem('siteLang', this.value);
+        applyLanguage(this.value);
+      });
+    }
+
+    applyLanguage(saved);
+  });
+})();
+</script>
+
 </body>
 </html>
