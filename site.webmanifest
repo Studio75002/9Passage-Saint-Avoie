@@ -1,0 +1,19 @@
+{
+  "name": "L’Appartement Signature — 9 Passage Saint-Avoie",
+  "short_name": "9 Passage",
+  "description": "Une adresse privilégiée au cœur du Marais historique, pensée pour habiter Paris autrement.",
+  "start_url": "/9Passage-Saint-Avoie/",
+  "scope": "/9Passage-Saint-Avoie/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f1e8",
+  "theme_color": "#1b1713",
+  "icons": [
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
