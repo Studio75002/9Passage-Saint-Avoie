@@ -2028,11 +2028,22 @@ document.addEventListener('DOMContentLoaded', function() {
 </audio>
 
 <script>
-document.addEventListener('click', function() {
-  const audio = document.getElementById('bg-music');
-  audio.volume = 0.2; // volume doux
-  audio.play();
-}, { once: true });
+let musicStarted = false;
+
+function startMusic() {
+  if (!musicStarted) {
+    const audio = document.getElementById('bg-music');
+    audio.volume = 0.2; // volume doux
+    audio.play();
+    musicStarted = true;
+  }
+}
+
+// Déclenchement au premier scroll
+window.addEventListener('scroll', startMusic, { once: true });
+
+// Sécurité : si l’utilisateur clique avant de scroller
+window.addEventListener('click', startMusic, { once: true });
 </script>
 
 </body>
